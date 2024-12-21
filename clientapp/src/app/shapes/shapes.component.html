@@ -1,0 +1,21 @@
+<div *ngFor="let shape of shapes">
+    <div *ngIf="shape.formsType">
+      <div>{{ shape.formsType?.name }}</div>
+    </div>
+  
+    <div *ngIf="shape.width && shape.height" class="shape rectangle"
+         [ngStyle]="{ 'top': shape.positionY + 'px', 'left': shape.positionX + 'px', 'width': shape.width + 'px', 'height': shape.height + 'px' }">
+      <span *ngIf="shape.text" (click)="showPopup(shape.text)">{{ shape.text }}</span>
+    </div>
+  
+    <div *ngIf="shape.width && !shape.height" class="shape circle"
+         [ngStyle]="{ 'top': shape.positionY + 'px', 'left': shape.positionX + 'px', 'width': shape.width + 'px', 'height': shape.width + 'px' }">
+      <span *ngIf="shape.text" (click)="showPopup(shape.text)">{{ shape.text }}</span>
+    </div>
+  
+    <div *ngIf="!shape.width && !shape.height" class="shape text"
+         [ngStyle]="{ 'top': shape.positionY + 'px', 'left': shape.positionX + 'px' }">
+      <span *ngIf="shape.text" (click)="showPopup(shape.text)">{{ shape.text }}</span>
+    </div>
+  </div>
+  
