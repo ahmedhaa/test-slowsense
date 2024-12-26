@@ -4,7 +4,7 @@
     {
         public Guid Id { get; set; }
         public int FormsTypeId { get; set; }
-        public string FormsTypeName { get; set; } // Le nom du type de forme
+        public string FormsTypeName { get; set; } 
         public decimal PositionX { get; set; }
         public decimal PositionY { get; set; }
         public int? Width { get; set; }
