@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using shapesapp.Data;
 
@@ -16,9 +16,12 @@ namespace shapesapp.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Shape>>> GetShapes()
+        public IEnumerable<ShapeDTO> GetShapes()
         {
-            var shapes = await _context.Shapes.Include(s => s.FormsType).ToListAsync();
+            var shapes = _context.Shapes
+                .Include(s => s.FormsType) 
+                .ToList();
+
 
             var filteredShapes = shapes.Where(s =>
                 s.PositionX >= 0 && s.PositionX <= 600 &&
@@ -27,7 +30,21 @@ namespace shapesapp.Controllers
                 (s.Height == null || s.PositionY + s.Height <= 800)
             ).ToList();
 
-            return Ok(filteredShapes);
+           
+            var shapeDTOs = filteredShapes.Select(s => new ShapeDTO
+            {
+                Id = s.Id,
+                FormsTypeId = s.FormsTypeId,
+                FormsTypeName = s.FormsType.Name, // Inclure le nom du type de forme
+                PositionX = s.PositionX,
+                PositionY = s.PositionY,
+                Width = s.Width,
+                Height = s.Height,
+                Text = s.Text,
+                Order = s.Order
+            }).ToList();
+
+            return shapeDTOs;
         }
     }
 }
