@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ShapesService } from '../shapes.service';
 import { Shape } from '../shape.model';
+import { ApiResponse } from '../api-response.model';
 
 @Component({
   selector: 'app-shapes',
@@ -13,21 +14,20 @@ export class ShapesComponent implements OnInit {
   constructor(private shapesService: ShapesService) {}
 
   ngOnInit(): void {
-    this.shapesService.getShapes().subscribe((data) => {
-      console.log(data);
-      this.shapes = data;
+    this.shapesService.getShapes().subscribe((shapes: Shape[]) => {
+      this.shapes = shapes.sort((a, b) => a.order - b.order); 
+      console.log('Shapes:', this.shapes);
     });
   }
 
+ 
+  
+
   showPopup(text: string): void {
     if (text) {
-      alert(text); // Affiche le texte dans une popup
-    } else {
-      alert('Aucun texte disponible'); // Si aucun texte n'est fourni
-    }
+      alert(text); 
+    } 
   }
-  showText(shape: Shape) {
-    alert(shape.text);
-  }
-  
+
+ 
 }
